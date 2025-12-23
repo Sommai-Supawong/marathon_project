@@ -1,23 +1,24 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin_id'])) {
-    header("Location: admin_login.php");
+include '../config/db.php';
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../login_form.php");
     exit();
 }
-?>
-<?php
-include '../config/db.php';
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    // ลบข้อมูลการลงทะเบียน (จะลบแค่ในตาราง REGISTRATION)
-    $sql = "DELETE FROM REGISTRATION WHERE reg_id = $id";
+    // Use prepared statement to prevent SQL injection
+    $stmt = $conn->prepare("DELETE FROM REGISTRATION WHERE reg_id = ?");
+    $stmt->bind_param("i", $id);
 
-    if ($conn->query($sql) === TRUE) {
+    if ($stmt->execute()) {
         echo "<script>alert('ลบข้อมูลเรียบร้อยแล้ว'); window.location='admin_dashboard.php';</script>";
     } else {
         echo "Error deleting record: " . $conn->error;
     }
+    $stmt->close();
 }
 ?>

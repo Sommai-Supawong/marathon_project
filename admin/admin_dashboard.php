@@ -4,7 +4,7 @@ include '../config/db.php';
 
 // 1. ตรวจสอบสิทธิ์ (Security Check)
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../login.php");
+    header("Location: ../login_form.php");
     exit();
 }
 
@@ -69,7 +69,7 @@ $result = $conn->query($sql);
     </a>
     <div class="d-flex align-items-center gap-3">
         <span class="small fw-bold">ADMIN: <?php echo $_SESSION['full_name']; ?></span>
-        <a href="logout.php" class="btn btn-outline-dark btn-sm rounded-pill px-3">Logout</a>
+        <a href="../logout.php" class="btn btn-outline-dark btn-sm rounded-pill px-3">Logout</a>
     </div>
 </nav>
 

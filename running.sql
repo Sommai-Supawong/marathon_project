@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2025 at 05:32 AM
+-- Generation Time: Dec 23, 2025 at 11:04 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -122,7 +122,7 @@ CREATE TABLE `registration` (
 --
 
 INSERT INTO `registration` (`reg_id`, `runner_id`, `category_id`, `price_id`, `shipping_id`, `reg_date`, `shirt_size`, `bib_number`, `status`) VALUES
-(3, 2, 1, NULL, 2, '2025-12-23', 'L', 'R-0002', 'Pending');
+(5, 4, 1, NULL, 2, '2025-12-23', 'M', 'R-0004', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -148,7 +148,7 @@ CREATE TABLE `runner` (
 --
 
 INSERT INTO `runner` (`runner_id`, `first_name`, `last_name`, `date_of_birth`, `gender`, `citizen_id`, `phone`, `email`, `address`, `is_disabled`) VALUES
-(2, 'Sommai', 'Supawong', '2025-12-05', 'Male', '0000000000000', '', 'admin@example.com', '85 Malaiman Road, Muang, Nakhon Pathom 73000 Thailand', 0);
+(4, 'Sommai', 'Supawong', '2025-12-18', 'Male', '1234567890123', '', 'Sommai.050449@gmail.com', '211', 0);
 
 -- --------------------------------------------------------
 
@@ -179,9 +179,10 @@ INSERT INTO `shipping_option` (`shipping_id`, `type`, `cost`, `detail`) VALUES
 
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
+  `runner_id` int(11) DEFAULT NULL,
+  `username` varchar(13) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('admin','user') DEFAULT 'user',
+  `role` varchar(20) DEFAULT 'user',
   `full_name` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -189,10 +190,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `full_name`) VALUES
-(1, 'admin', 'admin123', 'user', 'สมหมาย ผู้ดูแลระบบ'),
-(4, 'admin01', 'admin123', 'admin', 'สมหมาย ผู้ดูแลระบบ'),
-(5, 'user01', 'user123', 'user', 'สมชาย นักวิ่ง');
+INSERT INTO `users` (`user_id`, `runner_id`, `username`, `password`, `role`, `full_name`) VALUES
+(1, NULL, 'admin', 'admin123', 'user', 'สมหมาย ผู้ดูแลระบบ'),
+(4, NULL, 'admin01', 'admin123', 'admin', 'สมหมาย ผู้ดูแลระบบ'),
+(5, NULL, 'user01', 'user123', 'user', 'สมชาย นักวิ่ง'),
+(7, 4, '1234567890123', '123456', 'user', 'Sommai Supawong');
 
 --
 -- Indexes for dumped tables
@@ -253,7 +255,9 @@ ALTER TABLE `shipping_option`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `username_2` (`username`),
+  ADD KEY `fk_user_runner` (`runner_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -287,13 +291,13 @@ ALTER TABLE `race_category`
 -- AUTO_INCREMENT for table `registration`
 --
 ALTER TABLE `registration`
-  MODIFY `reg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `reg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `runner`
 --
 ALTER TABLE `runner`
-  MODIFY `runner_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `runner_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `shipping_option`
@@ -305,7 +309,7 @@ ALTER TABLE `shipping_option`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -337,6 +341,12 @@ ALTER TABLE `registration`
   ADD CONSTRAINT `registration_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `race_category` (`category_id`),
   ADD CONSTRAINT `registration_ibfk_3` FOREIGN KEY (`price_id`) REFERENCES `price_rate` (`price_id`),
   ADD CONSTRAINT `registration_ibfk_4` FOREIGN KEY (`shipping_id`) REFERENCES `shipping_option` (`shipping_id`);
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `fk_user_runner` FOREIGN KEY (`runner_id`) REFERENCES `runner` (`runner_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
