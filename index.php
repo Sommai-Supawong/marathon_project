@@ -11,7 +11,7 @@ if (isset($_SESSION['user_id'])) {
     $uid = $_SESSION['user_id'];
 
     // ใช้ Prepared Statement เพื่อความปลอดภัย
-    $stmt = $conn->prepare("SELECT bib_number, status FROM REGISTRATION WHERE runner_id = ? LIMIT 1");
+    $stmt = $conn->prepare("SELECT bib_number, status FROM registration WHERE runner_id = ? LIMIT 1");
     $stmt->bind_param("i", $uid);
     $stmt->execute();
     $res = $stmt->get_result();
@@ -27,9 +27,9 @@ if (isset($_SESSION['user_id'])) {
 // ดึงข้อมูลตารางผู้สมัคร (แสดงทั้งหมด)
 $sql = "SELECT reg.reg_id, run.first_name, run.last_name, cat.name AS race_name,
                cat.distance_km, reg.status, reg.bib_number
-        FROM REGISTRATION reg
-        JOIN RUNNER run ON reg.runner_id = run.runner_id
-        JOIN RACE_CATEGORY cat ON reg.category_id = cat.category_id
+        FROM registration reg
+        JOIN runner run ON reg.runner_id = run.runner_id
+        JOIN race_category cat ON reg.category_id = cat.category_id
         ORDER BY reg.reg_id ASC";
 $result = $conn->query($sql);
 ?>
@@ -153,9 +153,9 @@ $result = $conn->query($sql);
                         // ดึงข้อมูลตารางผู้สมัคร (แสดงทั้งหมด)
                         $sql = "SELECT reg.reg_id, run.first_name, run.last_name, cat.name AS race_name,
                                        cat.distance_km, reg.status, reg.bib_number
-                                FROM REGISTRATION reg
-                                JOIN RUNNER run ON reg.runner_id = run.runner_id
-                                JOIN RACE_CATEGORY cat ON reg.category_id = cat.category_id
+                                FROM registration reg
+                                JOIN runner run ON reg.runner_id = run.runner_id
+                                JOIN race_category cat ON reg.category_id = cat.category_id
                                 ORDER BY reg.reg_id ASC";
                         $result = $conn->query($sql);
 

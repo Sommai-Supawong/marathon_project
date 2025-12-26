@@ -20,23 +20,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // --- เริ่มกระบวนการ Transaction (บันทึกต่อเนื่อง) ---
 
-    // STEP 1: บันทึกลงตาราง RUNNER
-    $sql1 = "INSERT INTO RUNNER (first_name, last_name, date_of_birth, gender, citizen_id, email, address, is_disabled)
+    // STEP 1: บันทึกลงตาราง runner
+    $sql1 = "INSERT INTO runner (first_name, last_name, date_of_birth, gender, citizen_id, email, address, is_disabled)
              VALUES ('$fname', '$lname', '$dob', '$gender', '$citizen_id', '$email', '$address', '$is_disabled')";
 
     if ($conn->query($sql1)) {
         $runner_id = $conn->insert_id; // เก็บ ID ที่เพิ่งได้มา
 
-        // STEP 2: สร้างบัญชีผู้ใช้ในตาราง USERS
+        // STEP 2: สร้างบัญชีผู้ใช้ในตาราง users
         $full_name = $fname . " " . $lname;
-        $stmt2 = $conn->prepare("INSERT INTO USERS (runner_id, username, password, role, full_name) VALUES (?, ?, ?, 'user', ?)");
+        $stmt2 = $conn->prepare("INSERT INTO users (runner_id, username, password, role, full_name) VALUES (?, ?, ?, 'user', ?)");
         $stmt2->bind_param("isss", $runner_id, $citizen_id, $password, $full_name);
 
         if ($stmt2->execute()) {
 
-            // STEP 3: สร้างรายการสมัครในตาราง REGISTRATION
+            // STEP 3: สร้างรายการสมัครในตาราง registration
             $bib_number = "R-" . str_pad($runner_id, 4, "0", STR_PAD_LEFT);
-            $stmt3 = $conn->prepare("INSERT INTO REGISTRATION (runner_id, category_id, shipping_id, reg_date, shirt_size, bib_number, status) VALUES (?, ?, ?, NOW(), ?, ?, 'Pending')");
+            $stmt3 = $conn->prepare("INSERT INTO registration (runner_id, category_id, shipping_id, reg_date, shirt_size, bib_number, status) VALUES (?, ?, ?, NOW(), ?, ?, 'Pending')");
             $stmt3->bind_param("iiiss", $runner_id, $cat_id, $ship_id, $shirt_size, $bib_number);
 
             if ($stmt3->execute()) {

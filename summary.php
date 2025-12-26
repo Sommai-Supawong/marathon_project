@@ -1,7 +1,7 @@
-<?php 
+<?php
 include 'config/db.php';
 $id = $_GET['id'];
-$data = $conn->query("SELECT r.*, c.name as race_name FROM REGISTRATION r JOIN RACE_CATEGORY c ON r.category_id = c.category_id WHERE r.reg_id = $id")->fetch_assoc();
+$data = $conn->query("SELECT r.*, c.name as race_name FROM registration r JOIN race_category c ON r.category_id = c.category_id WHERE r.reg_id = $id")->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="th">

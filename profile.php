@@ -12,10 +12,10 @@ $runner_id = $_SESSION['runner_id'];
 
 // 2. Query ดึงข้อมูลนักวิ่ง + ข้อมูลการสมัคร (JOIN 4 ตาราง)
 $sql = "SELECT r.*, reg.bib_number, reg.status, reg.shirt_size, cat.name as race_name, cat.distance_km, s.type as ship_type
-        FROM RUNNER r
-        LEFT JOIN REGISTRATION reg ON r.runner_id = reg.runner_id
-        LEFT JOIN RACE_CATEGORY cat ON reg.category_id = cat.category_id
-        LEFT JOIN SHIPPING_OPTION s ON reg.shipping_id = s.shipping_id
+        FROM runner r
+        LEFT JOIN registration reg ON r.runner_id = reg.runner_id
+        LEFT JOIN race_category cat ON reg.category_id = cat.category_id
+        LEFT JOIN shipping_option s ON reg.shipping_id = s.shipping_id
         WHERE r.runner_id = '$runner_id' LIMIT 1";
 
 $result = $conn->query($sql);

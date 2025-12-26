@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pass = $_POST['password'];
 
     // Use prepared statement to prevent SQL injection
-    $sql = "SELECT * FROM USERS WHERE username = ? LIMIT 1";
+    $sql = "SELECT * FROM users WHERE username = ? LIMIT 1";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $user);
     $stmt->execute();

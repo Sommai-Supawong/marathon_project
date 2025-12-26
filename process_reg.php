@@ -2,10 +2,10 @@
 include 'config/db.php';
 $reg_id = $_GET['id']; // รับ ID มาจากหน้า process_reg.php
 
-$sql = "SELECT r.*, c.name as race_name, s.type as ship_type 
-        FROM REGISTRATION r 
-        JOIN RACE_CATEGORY c ON r.category_id = c.category_id 
-        JOIN SHIPPING_OPTION s ON r.shipping_id = s.shipping_id
+$sql = "SELECT r.*, c.name as race_name, s.type as ship_type
+        FROM registration r
+        JOIN race_category c ON r.category_id = c.category_id
+        JOIN shipping_option s ON r.shipping_id = s.shipping_id
         WHERE r.reg_id = $id";
 $res = $conn->query($sql);
 $data = $res->fetch_assoc();
@@ -15,8 +15,8 @@ $email = $conn->real_escape_string($_POST['email']);
 $address = $conn->real_escape_string($_POST['address']);
 $is_disabled = isset($_POST['is_disabled']) ? 1 : 0; // แปลง checkbox เป็น 0 หรือ 1
 
-// แก้ไขคำสั่ง INSERT ในตาราง RUNNER ให้มีคอลัมน์เหล่านี้
-$sql_runner = "INSERT INTO RUNNER (first_name, last_name, date_of_birth, gender, phone, citizen_id, email, address, is_disabled) 
+// แก้ไขคำสั่ง INSERT ในตาราง runner ให้มีคอลัมน์เหล่านี้
+$sql_runner = "INSERT INTO runner (first_name, last_name, date_of_birth, gender, phone, citizen_id, email, address, is_disabled)
                VALUES ('$fname', '$lname', '$dob', '$gender', '$phone', '$citizen_id', '$email', '$address', '$is_disabled')";
 ?>
 

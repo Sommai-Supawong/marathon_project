@@ -1,8 +1,8 @@
 <?php
 // คำสั่ง SQL สำหรับสรุปยอด
-$total_runners = $conn->query("SELECT COUNT(*) as total FROM REGISTRATION")->fetch_assoc()['total'];
-$paid_runners = $conn->query("SELECT COUNT(*) as total FROM REGISTRATION WHERE status='Paid'")->fetch_assoc()['total'];
-$total_income = $conn->query("SELECT SUM(total_amount) as total FROM PAYMENT WHERE status='Success'")->fetch_assoc()['total'];
+$total_runners = $conn->query("SELECT COUNT(*) as total FROM registration")->fetch_assoc()['total'];
+$paid_runners = $conn->query("SELECT COUNT(*) as total FROM registration WHERE status='Paid'")->fetch_assoc()['total'];
+$total_income = $conn->query("SELECT SUM(total_amount) as total FROM payment WHERE status='Success'")->fetch_assoc()['total'];
 ?>
 
 <div class="row mb-4">

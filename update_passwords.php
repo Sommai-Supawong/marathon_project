@@ -11,7 +11,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $update_stmt = $conn->prepare("UPDATE users SET password = ? WHERE user_id = ?");
-    
+
     while($row = $result->fetch_assoc()) {
         $user_id = $row['user_id'];
         $current_password = $row['password'];

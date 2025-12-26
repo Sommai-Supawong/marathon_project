@@ -6,9 +6,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bib = $_POST['bib_number'];
     $status = $_POST['status'];
 
-    $sql = "UPDATE REGISTRATION SET 
-            bib_number = '$bib', 
-            status = '$status' 
+    $sql = "UPDATE registration SET
+            bib_number = '$bib',
+            status = '$status'
             WHERE reg_id = $reg_id";
 
     if ($conn->query($sql) === TRUE) {

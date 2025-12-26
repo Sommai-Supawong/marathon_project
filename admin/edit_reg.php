@@ -8,8 +8,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 }
 
 $id = $_GET['id'];
-$res = $conn->query("SELECT reg.*, run.first_name, run.last_name FROM REGISTRATION reg 
-                    JOIN RUNNER run ON reg.runner_id = run.runner_id 
+$res = $conn->query("SELECT reg.*, run.first_name, run.last_name FROM registration reg
+                    JOIN runner run ON reg.runner_id = run.runner_id
                     WHERE reg.reg_id = $id");
 $data = $res->fetch_assoc();
 
@@ -17,8 +17,8 @@ $data = $res->fetch_assoc();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $status = $_POST['status'];
     $bib = $_POST['bib_number'];
-    
-    $update = "UPDATE REGISTRATION SET status='$status', bib_number='$bib' WHERE reg_id=$id";
+
+    $update = "UPDATE registration SET status='$status', bib_number='$bib' WHERE reg_id=$id";
     if ($conn->query($update)) {
         header("Location: admin_dashboard.php");
         exit();

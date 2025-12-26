@@ -103,7 +103,7 @@ include 'config/db.php';
                             <select name="category_id" id="category" class="form-select mb-3" onchange="updatePrice()" required>
                                 <option value="" data-price="0">-- เลือกระยะทาง --</option>
                                 <?php
-                                $sql_cat = "SELECT c.category_id, c.name, p.amount FROM RACE_CATEGORY c JOIN PRICE_RATE p ON c.category_id = p.category_id WHERE p.runner_type = 'Standard'";
+                                $sql_cat = "SELECT c.category_id, c.name, p.amount FROM race_category c JOIN price_rate p ON c.category_id = p.category_id WHERE p.runner_type = 'Standard'";
                                 $res_cat = $conn->query($sql_cat);
                                 while($row = $res_cat->fetch_assoc()) {
                                     echo "<option value='{$row['category_id']}' data-price='{$row['amount']}'>" . strtoupper($row['name']) . " - ฿" . number_format($row['amount']) . "</option>";
@@ -125,7 +125,7 @@ include 'config/db.php';
                     <div class="section-title">การจัดส่ง (SHIPPING)</div>
                     <div class="bg-light p-3 border rounded">
                         <?php
-                        $ship = $conn->query("SELECT * FROM SHIPPING_OPTION");
+                        $ship = $conn->query("SELECT * FROM shipping_option");
                         while($s = $ship->fetch_assoc()) {
                             $checked = ($s['shipping_id'] == 2) ? "checked" : "";
                             echo "<div class='form-check mb-2'>

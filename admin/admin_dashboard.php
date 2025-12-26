@@ -9,20 +9,20 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 }
 
 // 2. ดึงข้อมูลสถิติ
-$total_runners = $conn->query("SELECT COUNT(*) as total FROM REGISTRATION")->fetch_assoc()['total'];
-$paid_runners = $conn->query("SELECT COUNT(*) as total FROM REGISTRATION WHERE status='Paid'")->fetch_assoc()['total'];
-// คำนวณรายได้โดยเชื่อมตาราง PRICE_RATE
-$income_res = $conn->query("SELECT SUM(p.amount) as total 
-                            FROM REGISTRATION r 
-                            JOIN PRICE_RATE p ON r.price_id = p.price_id 
+$total_runners = $conn->query("SELECT COUNT(*) as total FROM registration")->fetch_assoc()['total'];
+$paid_runners = $conn->query("SELECT COUNT(*) as total FROM registration WHERE status='Paid'")->fetch_assoc()['total'];
+// คำนวณรายได้โดยเชื่อมตาราง price_rate
+$income_res = $conn->query("SELECT SUM(p.amount) as total
+                            FROM registration r
+                            JOIN price_rate p ON r.price_id = p.price_id
                             WHERE r.status='Paid'")->fetch_assoc()['total'];
 
 // 3. ดึงข้อมูลตารางผู้สมัคร
-$sql = "SELECT reg.reg_id, run.first_name, run.last_name, cat.name AS race_name, 
+$sql = "SELECT reg.reg_id, run.first_name, run.last_name, cat.name AS race_name,
                cat.distance_km, reg.status, reg.reg_date, reg.bib_number
-        FROM REGISTRATION reg
-        JOIN RUNNER run ON reg.runner_id = run.runner_id
-        JOIN RACE_CATEGORY cat ON reg.category_id = cat.category_id
+        FROM registration reg
+        JOIN runner run ON reg.runner_id = run.runner_id
+        JOIN race_category cat ON reg.category_id = cat.category_id
         ORDER BY reg.reg_id DESC";
 $result = $conn->query($sql);
 ?>

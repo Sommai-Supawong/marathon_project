@@ -13,12 +13,12 @@ $runner_id = isset($_SESSION['runner_id']) ? $_SESSION['runner_id'] : $_SESSION[
 
 // 2. ดึงข้อมูลแบบละเอียด โดยใช้ Prepared Statement (ปลอดภัยกว่า)
 $sql = "SELECT r.*, reg.bib_number, reg.status, reg.shirt_size, reg.reg_date,
-               cat.name as race_name, cat.distance_km, 
+               cat.name as race_name, cat.distance_km,
                s.type as ship_type, s.cost as ship_cost
-        FROM RUNNER r
-        LEFT JOIN REGISTRATION reg ON r.runner_id = reg.runner_id
-        LEFT JOIN RACE_CATEGORY cat ON reg.category_id = cat.category_id
-        LEFT JOIN SHIPPING_OPTION s ON reg.shipping_id = s.shipping_id
+        FROM runner r
+        LEFT JOIN registration reg ON r.runner_id = reg.runner_id
+        LEFT JOIN race_category cat ON reg.category_id = cat.category_id
+        LEFT JOIN shipping_option s ON reg.shipping_id = s.shipping_id
         WHERE r.runner_id = ? LIMIT 1";
 
 $stmt = $conn->prepare($sql);
@@ -27,7 +27,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-// กรณีฉุกเฉิน: ถ้าหาข้อมูลนักวิ่งไม่เจอในตาราง RUNNER
+// กรณีฉุกเฉิน: ถ้าหาข้อมูลนักวิ่งไม่เจอในตาราง runner
 if (!$user) {
     // ล้าง session และส่งกลับไปหน้า login เพื่อป้องกัน loop
     session_destroy();

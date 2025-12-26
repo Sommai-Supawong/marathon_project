@@ -11,7 +11,7 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     // Use prepared statement to prevent SQL injection
-    $stmt = $conn->prepare("DELETE FROM REGISTRATION WHERE reg_id = ?");
+    $stmt = $conn->prepare("DELETE FROM registration WHERE reg_id = ?");
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()) {
